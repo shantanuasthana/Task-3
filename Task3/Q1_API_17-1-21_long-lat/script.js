@@ -1,0 +1,31 @@
+// 1. create a request variable
+var request = new XMLHttpRequest();
+// 2. create a new connection
+request.open('GET', 'https://restcountries.eu/rest/v2/all', true);
+// 3. send request
+request.send();
+// 4. load response
+request.onload = function(){
+  var data = JSON.parse(this.response)
+  console.log(data);
+   for(var i in data)
+    {
+        weatherData(data[i].latlng[0], data[i].latlng[1])
+    }
+}
+
+function weatherData(lat, lon)
+{
+  var request = new XMLHttpRequest();
+
+  request.open('GET', `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=b7436534390dfb7da651064ac03d7a45`, true);
+
+  request.send();
+
+  request.onload = function(){
+    var data = JSON.parse(this.response)
+    console.log(data.name, data.main.temp);
+  }
+}
+
+// api key - b7436534390dfb7da651064ac03d7a45
